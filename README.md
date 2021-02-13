@@ -1,5 +1,5 @@
 # PhpProject
-php项目初始文件
+Php项目初始文件
 
 # 封装内容
 1.Mysql操作对象</br>
