@@ -31,13 +31,20 @@ function MySqlDemo()
  * @param: type 请求类型
  * @param: data 请求数据
  * @param: DataType 数据类型 分为1,2 1为数据拼接传参 2为json传参
+ * @param: HeaderType 请求头类型 默认为PC请求头 值为PE时请求头为手机
  * @return: result
 */
-function MyRequest($url, $header, $type, $data, $DataType)
+function MyRequest($url, $header, $type, $data, $DataType, $HeaderType = "PC")
 {
     //常用header
     //$header = "user-agent:" . 1 . "\r\n" . "referer:" . 1 . "\r\n" . "AccessToken:" . 1 . "\r\n" . "cookie:" . 1 . "\r\n";
-    if (empty($header)) $header = "user-agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63\r\n";
+    if (empty($header)) {
+        if ($HeaderType == "PC") {
+            $header = "user-agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63\r\n";
+        } else if ($HeaderType == "PE") {
+            $header = "user-agent:Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/88.0.4324.150\r\n";
+        }
+    }
     if (!empty($data)) {
         if ($DataType == 1) {
             $data = http_build_query($data); //数据拼接
@@ -55,5 +62,10 @@ function MyRequest($url, $header, $type, $data, $DataType)
     );
     $context = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
-    return $result;
+    $headers = get_headers($url, true); //获取请求返回的header
+    $ReturnArr = array(
+        'headers' => $headers,
+        'body' => $result
+    );
+    return $ReturnArr;
 }
