@@ -6,7 +6,7 @@
  * ModifyTime:  2021/2/12 下午3:25:41 
  * Description: 
 */
-define('DIR', dirname(__DIR__));
+
 include_once(DIR . '/system/class/mysql.class.php');
 
 /* 
