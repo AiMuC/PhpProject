@@ -18,7 +18,6 @@ class MySql
 
     function MySqlInit()
     {
-        define('DIR', dirname(__DIR__));
         require(DIR . '/system/config.php');
         $pdo = new PDO("mysql:local=$config[host];dbname=$config[dbname]", $config["username"], $config["password"]);
         if (!$pdo) exit('数据库连接错误,请在Config.php中修改');
