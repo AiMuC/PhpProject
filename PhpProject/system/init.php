@@ -12,3 +12,5 @@ header('Content-type:text/html;charset=utf8');
 define('DIR', dirname(__DIR__));
 include_once(DIR . '/system/class/mysql.class.php');
 include_once(DIR . '/system/function.php');
+foreach ($_GET as $k => $v) CheckInput($v); //检查传入字符串
+foreach ($_POST as $k => $v) CheckInput($v); //检查传入字符串
