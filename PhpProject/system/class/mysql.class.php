@@ -19,8 +19,11 @@ class MySql
     function MySqlInit()
     {
         require(DIR . '/system/config.php');
-        $pdo = new PDO("mysql:local=$config[host];dbname=$config[dbname]", $config["username"], $config["password"]);
-        if (!$pdo) exit('数据库连接错误,请在Config.php中修改');
+        try {
+            $pdo = new PDO("mysql:local=$config[host];dbname=$config[dbname]", $config["username"], $config["password"]);
+        } catch (PDOException $e) {
+            exit('数据库连接错误请检查Config.php文件是否正确配置');
+        }
         $pdo->exec("set names utf8");
         $this->DB = $pdo;
     }
