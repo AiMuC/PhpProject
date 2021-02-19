@@ -2,8 +2,8 @@
 /* File Info 
  * Author:      AiMuC 
  * CreateTime:  2021/1/28 下午4:53:55 
- * LastEditor:  AiMuC 
- * ModifyTime:  2021/2/12 下午2:32:12 
+ * LastEditor:  AiMuC
+ * ModifyTime:  2021/2/19 下午9:43:44
  * Description: 
 */
 
@@ -28,11 +28,43 @@ class MySql
         $this->DB = $pdo;
     }
 
-    function select($table, $where, $value)
+    /* 
+ * @Description: Mysql查询函数
+ * @param: table 表名
+ * @param: columu 列名
+ * @param: value 需要带入查询的值
+ * @return: array
+*/
+    function select($table, $column, $value)
     {
         $pdo = $this->DB;
+        $column = implode("=? and ", $column) . "=?";
+        $sql = "select * from $table where $column";
+        $sql = $pdo->prepare($sql);
+        $sql->execute($value);
+        $row = $sql->fetchAll();
+        $num = $sql->rowCount();
+        $ReturnArr = array(
+            'count' => $num,
+            'data' => $row
+        );
+        return $ReturnArr;
+    }
+    /* 
+ * @Description: 更新表内容
+ * @param: table 表名
+ * @param: column 需更新的列名
+ * @param: value 更新的值 条件内的值需要跟在value中
+ * @param: where 更新条件
+ * @demo：print_r($Mysql1->update('表名',array('列名1','列名2'),array(值1,值2,条件值3),array(条件)));
+ * @return: array
+*/
+    function update($table, $column, $value, $where)
+    {
+        $pdo = $this->DB;
+        $column = implode("=?,", $column) . "=?";
         $where = implode("=? and ", $where) . "=?";
-        $sql = "select * from $table where $where";
+        $sql = "update $table set $column where $where";
         $sql = $pdo->prepare($sql);
         $sql->execute($value);
         $row = $sql->fetchAll();
