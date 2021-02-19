@@ -28,13 +28,34 @@ class MySql
         $this->DB = $pdo;
     }
 
+    function select($table, $where, $value)
+    {
+        $pdo = $this->DB;
+        $where = implode("=? and ", $where) . "=?";
+        $sql = "select * from $table where $where";
+        $sql = $pdo->prepare($sql);
+        $sql->execute($value);
+        $row = $sql->fetchAll();
+        $num = $sql->rowCount();
+        $ReturnArr = array(
+            'count' => $num,
+            'data' => $row
+        );
+        return $ReturnArr;
+    }
+
     function getexecsqlall($exec)
     {
         $pdo = $this->DB;
         $sql = $pdo->prepare("$exec");
         $sql->execute();
         $row = $sql->fetchAll();
-        return $row;
+        $num = $sql->rowCount();
+        $ReturnArr = array(
+            'count' => $num,
+            'data' => $row
+        );
+        return $ReturnArr;
     }
 
     function getexecsql($exec)
@@ -66,14 +87,24 @@ class MySql
             $sql = $pdo->prepare("$exec");
             $sql->execute($value);
             $row = $sql->fetchAll();
-            return $row;
+            $num = $sql->rowCount();
+            $ReturnArr = array(
+                'count' => $num,
+                'data' => $row
+            );
+            return $ReturnArr;
         } else {
             $sql = $pdo->prepare("$exec");
             $sql->execute($value);
             while ($row = $sql->fetch()) {
                 $arr = $row["$rowone"];
             }
-            return $arr;
+            $num = $sql->rowCount();
+            $ReturnArr = array(
+                'count' => $num,
+                'data' => $arr
+            );
+            return $ReturnArr;
         }
     }
 }

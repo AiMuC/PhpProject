@@ -22,6 +22,7 @@ function MySqlDemo()
     $Mysql1 = new MySql(); //创建对象
     $Mysql1->MySqlInit(); //初始化对象
     print_r($Mysql1->getexecsqlall("select 2+2,2*2"));
+    print_r($Mysql1->select('xyppusers',array('uid'),array(1)));
 }
 
 /* 

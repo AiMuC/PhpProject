@@ -8,7 +8,7 @@
 */
 $config = array(
     'host' => 'localhost',
-    'username' => 'root',
-    'password' => 'password',
-    'dbname' => 'xypp'
+    'username' => 'root',//数据库用户名
+    'password' => 'password',//数据库密码
+    'dbname' => 'demo'//数据库名称
 );
