@@ -87,3 +87,38 @@ function CheckInput($value = null)
     }
     return true;
 }
+
+/* 
+ * @Description: 响应数据
+ * @param: type 类型
+ * @param: msg 响应内容
+ * @param: data 响应数据
+ * @return: json
+*/
+function ResponseData($msg, $type = 'success', $data = null)
+{
+    switch ($type) {
+        case "success":
+            $code = 200;
+            break;
+        case "warning":
+            $code = 201;
+            break;
+        case "error":
+            $code = 404;
+            break;
+        default:
+            $Response = array(
+                'code' => 500,
+                'msg' => '未知的响应类型',
+            );
+            exit(json_encode($Response, JSON_UNESCAPED_UNICODE));
+            break;
+    }
+    $Response = array(
+        'code' => $code,
+        'msg' => $msg,
+        'data' => $data
+    );
+    echo json_encode($Response, JSON_UNESCAPED_UNICODE);
+}
