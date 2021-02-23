@@ -20,7 +20,7 @@ class MySql
     {
         require(DIR . '/system/config.php');
         try {
-            $pdo = new PDO("mysql:local=$config[host];dbname=$config[dbname]", $config["username"], $config["password"]);
+            $pdo = new PDO("mysql:local=$config[host];port=$config[port];dbname=$config[dbname]", $config["username"], $config["password"]);
         } catch (PDOException $e) {
             exit('数据库连接错误请检查Config.php文件是否正确配置');
         }
