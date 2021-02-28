@@ -3,13 +3,9 @@
  * Author:      AiMuC 
  * CreateTime:  2021/1/28 下午4:53:55 
  * LastEditor:  AiMuC
- * ModifyTime:  2021/2/19 下午9:43:44
+ * ModifyTime:  2021/2/28 下午1:09:55
  * Description: 
 */
-
-//默认创建一个MySql对象返回
-$Mysql = new MySql(); //创建对象
-$Mysql->MySqlInit(); //初始化对象
 
 class MySql
 {
@@ -22,7 +18,8 @@ class MySql
         try {
             $pdo = new PDO("mysql:local=$config[host];port=$config[port];dbname=$config[dbname]", $config["username"], $config["password"]);
         } catch (PDOException $e) {
-            exit('数据库连接错误请检查Config.php文件是否正确配置');
+            echo "数据库连接错误请检查Config.php文件是否正确配置<br>";
+            exit(print_r($e->getMessage()));
         }
         $pdo->exec("set names utf8");
         $this->DB = $pdo;

@@ -2,12 +2,12 @@
 /* File Info 
  * Author:      AiMuC 
  * CreateTime:  2021/2/12 下午2:50:15 
- * LastEditor:  AiMuC 
- * ModifyTime:  2021/2/12 下午3:25:41 
+ * LastEditor:  AiMuC
+ * ModifyTime:  2021/2/28 下午1:09:49
  * Description: 
 */
 
-include_once(DIR . '/system/class/mysql.class.php');
+include_once(DIR . '/system/class/mysql.class.php'); //引用Mysql数据操作类
 
 /* 
  * @Description: 操作数据库对象Mysql演示Demo
@@ -15,10 +15,6 @@ include_once(DIR . '/system/class/mysql.class.php');
 */
 function MySqlDemo()
 {
-    //直接调用Mysql对象创建的$Mysql
-    $Mysql = $GLOBALS['Mysql'];
-    print_r($Mysql->getexecsql("select 1+1"));
-    //重新初始化对象
     $Mysql1 = new MySql(); //创建对象
     $Mysql1->MySqlInit(); //初始化对象
     print_r($Mysql1->getexecsqlall("select 2+2,2*2"));
@@ -74,16 +70,16 @@ function MyRequest($url, $header, $type, $data, $DataType, $HeaderType = "PC")
  * @Description: 检查传入字符串防止Sql注入
  * @param: $value
  * @return: bool/json
-*/ 
+*/
 function CheckInput($value = null)
 {
     $str = 'select|insert|<script>|<|>|xss|and|or|update|delete|\'|\/\*|\*|\.\.\/|\.\/|union|into|load_file|outfile|"|”|“';
     if (@mb_eregi($str, $value)) {
-        $ReturnArr=array(
-            'code'=>500,
-            'msg'=>"请勿输入危险字符"
+        $ReturnArr = array(
+            'code' => 500,
+            'msg' => "请勿输入危险字符"
         );
-        exit(json_encode($ReturnArr,JSON_UNESCAPED_UNICODE));
+        exit(json_encode($ReturnArr, JSON_UNESCAPED_UNICODE));
     }
     return true;
 }
