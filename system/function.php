@@ -67,24 +67,6 @@ function MyRequest($url, $header, $type, $data, $DataType, $HeaderType = "PC")
 }
 
 /* 
- * @Description: 检查传入字符串防止Sql注入
- * @param: $value
- * @return: bool/json
-*/
-function CheckInput($value = null)
-{
-    $str = 'select|insert|<script>|<|>|xss|and|or|update|delete|\'|\/\*|\*|\.\.\/|\.\/|union|into|load_file|outfile|"|”|“';
-    if (@mb_eregi($str, $value)) {
-        $ReturnArr = array(
-            'code' => 500,
-            'msg' => "请勿输入危险字符"
-        );
-        exit(json_encode($ReturnArr, JSON_UNESCAPED_UNICODE));
-    }
-    return true;
-}
-
-/* 
  * @Description: 响应数据
  * @param: type 类型
  * @param: msg 响应内容
