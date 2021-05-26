@@ -1,9 +1,9 @@
 <?php
 /* File Info 
  * Author:      AiMuC 
- * CreateTime:  2021/1/28 下午4:53:55 
+ * CreateTime:  2021/5/26下午11:20:29 
  * LastEditor:  AiMuC
- * ModifyTime:  2021/2/28 下午1:09:55
+ * ModifyTime:  2021/5/26下午11:56:18
  * Description: 
 */
 
@@ -12,7 +12,7 @@ class MySql
 
     public $DB = null;
 
-    function MySqlInit()
+    function MySql()
     {
         require(DIR . '/system/config.php');
         try {
@@ -32,7 +32,7 @@ class MySql
  * @param: value 需要带入查询的值
  * @return: array
 */
-    function select($table, $column, $value)
+    function Select($table, $column, $value)
     {
         $pdo = $this->DB;
         $column = implode("=? and ", $column) . "=?";
@@ -41,10 +41,10 @@ class MySql
         $sql->execute($value);
         $row = $sql->fetchAll();
         $num = $sql->rowCount();
-        $ReturnArr = array(
+        $ReturnArr = [
             'count' => $num,
             'data' => $row
-        );
+        ];
         return $ReturnArr;
     }
     /* 
@@ -56,7 +56,7 @@ class MySql
  * @demo：print_r($Mysql1->update('表名',array('列名1','列名2'),array(值1,值2,条件值3),array(条件)));
  * @return: array
 */
-    function update($table, $column, $value, $where)
+    function Update($table, $column, $value, $where)
     {
         $pdo = $this->DB;
         $column = implode("=?,", $column) . "=?";
@@ -66,28 +66,28 @@ class MySql
         $sql->execute($value);
         $row = $sql->fetchAll();
         $num = $sql->rowCount();
-        $ReturnArr = array(
+        $ReturnArr = [
             'count' => $num,
             'data' => $row
-        );
+        ];
         return $ReturnArr;
     }
 
-    function getexecsqlall($exec)
+    function GetExecSqlAll($exec)
     {
         $pdo = $this->DB;
         $sql = $pdo->prepare("$exec");
         $sql->execute();
         $row = $sql->fetchAll();
         $num = $sql->rowCount();
-        $ReturnArr = array(
+        $ReturnArr = [
             'count' => $num,
             'data' => $row
-        );
+        ];
         return $ReturnArr;
     }
 
-    function getexecsql($exec)
+    function GetExecSql($exec)
     {
         $pdo = $this->DB;
         $sql = $pdo->prepare("$exec");
@@ -96,7 +96,7 @@ class MySql
         return $row;
     }
 
-    function changedb($exec, $value)
+    function ChangeDb($exec, $value)
     {
         $pdo = $this->DB;
         $sql = $pdo->prepare("$exec");
@@ -109,7 +109,7 @@ class MySql
         }
     }
 
-    function getresult($exec, $value, $rowone)
+    function GetResult($exec, $value, $rowone)
     {
         $pdo = $this->DB;
         if (empty($rowone)) {
@@ -117,10 +117,10 @@ class MySql
             $sql->execute($value);
             $row = $sql->fetchAll();
             $num = $sql->rowCount();
-            $ReturnArr = array(
+            $ReturnArr = [
                 'count' => $num,
                 'data' => $row
-            );
+            ];
             return $ReturnArr;
         } else {
             $sql = $pdo->prepare("$exec");
@@ -129,10 +129,10 @@ class MySql
                 $arr = $row["$rowone"];
             }
             $num = $sql->rowCount();
-            $ReturnArr = array(
+            $ReturnArr = [
                 'count' => $num,
                 'data' => $arr
-            );
+            ];
             return $ReturnArr;
         }
     }

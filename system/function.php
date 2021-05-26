@@ -3,7 +3,7 @@
  * Author:      AiMuC 
  * CreateTime:  2021/2/12 下午2:50:15 
  * LastEditor:  AiMuC
- * ModifyTime:  2021/2/28 下午1:09:49
+ * ModifyTime:  2021/5/26下午11:56:26
  * Description: 
 */
 
@@ -15,9 +15,8 @@ include_once(DIR . '/system/class/mysql.class.php'); //引用Mysql数据操作�
 */
 function MySqlDemo()
 {
-    $Mysql1 = new MySql(); //创建对象
-    $Mysql1->MySqlInit(); //初始化对象
-    print_r($Mysql1->getexecsqlall("select 2+2,2*2"));
+    $Mysql = new MySql(); //创建数据库操作对象
+    print_r($Mysql->GetExecSql("select 2+2,2*2"));
 }
 
 /* 
@@ -48,21 +47,21 @@ function MyRequest($url, $header, $type, $data, $DataType, $HeaderType = "PC")
             $data = json_encode($data, JSON_UNESCAPED_UNICODE); //数据格式转换
         }
     }
-    $options = array(
-        'http' => array(
+    $options = [
+        'http' => [
             'method' => $type,
             "header" => $header,
             'content' => $data,
             'timeout' => 15 * 60, // 超时时间（单位:s）
-        )
-    );
+        ]
+    ];
     $context = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
     $headers = get_headers($url, true); //获取请求返回的header
-    $ReturnArr = array(
+    $ReturnArr = [
         'headers' => $headers,
         'body' => $result
-    );
+    ];
     return $ReturnArr;
 }
 
@@ -86,17 +85,17 @@ function ResponseData($msg, $type = 'success', $data = null)
             $code = 404;
             break;
         default:
-            $Response = array(
+            $Response = [
                 'code' => 500,
                 'msg' => '未知的响应类型',
-            );
+            ];
             exit(json_encode($Response, JSON_UNESCAPED_UNICODE));
             break;
     }
-    $Response = array(
+    $Response = [
         'code' => $code,
         'msg' => $msg,
         'data' => $data
-    );
+    ];
     echo json_encode($Response, JSON_UNESCAPED_UNICODE);
 }
