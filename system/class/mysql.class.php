@@ -39,11 +39,10 @@ class MySql
         $sql = "select * from $table where $column";
         $sql = $pdo->prepare($sql);
         $sql->execute($value);
-        $row = $sql->fetchAll();
-        $num = $sql->rowCount();
+        $row = $sql->fetchAll(PDO::FETCH_ASSOC);
         $ReturnArr = [
-            'count' => $num,
-            'data' => $row
+            'count' => $sql->rowCount(),
+            'data' => $row[0]
         ];
         return $ReturnArr;
     }
@@ -64,11 +63,8 @@ class MySql
         $sql = "update $table set $column where $where";
         $sql = $pdo->prepare($sql);
         $sql->execute($value);
-        $row = $sql->fetchAll();
-        $num = $sql->rowCount();
         $ReturnArr = [
-            'count' => $num,
-            'data' => $row
+            'count' => $sql->rowCount()
         ];
         return $ReturnArr;
     }
@@ -78,11 +74,10 @@ class MySql
         $pdo = $this->DB;
         $sql = $pdo->prepare("$exec");
         $sql->execute();
-        $row = $sql->fetchAll();
-        $num = $sql->rowCount();
+        $row = $sql->fetchAll(PDO::FETCH_ASSOC);
         $ReturnArr = [
-            'count' => $num,
-            'data' => $row
+            'count' => $sql->rowCount(),
+            'data' => $row[0]
         ];
         return $ReturnArr;
     }
@@ -92,7 +87,7 @@ class MySql
         $pdo = $this->DB;
         $sql = $pdo->prepare("$exec");
         $sql->execute();
-        $row = $sql->fetch();
+        $row = $sql->fetch(PDO::FETCH_ASSOC);
         return $row;
     }
 
@@ -115,22 +110,18 @@ class MySql
         if (empty($rowone)) {
             $sql = $pdo->prepare("$exec");
             $sql->execute($value);
-            $row = $sql->fetchAll();
-            $num = $sql->rowCount();
+            $row = $sql->fetchAll(PDO::FETCH_ASSOC);
             $ReturnArr = [
-                'count' => $num,
-                'data' => $row
+                'count' => $sql->rowCount(),
+                'data' => $row[0]
             ];
             return $ReturnArr;
         } else {
             $sql = $pdo->prepare("$exec");
             $sql->execute($value);
-            while ($row = $sql->fetch()) {
-                $arr = $row["$rowone"];
-            }
-            $num = $sql->rowCount();
+            $arr=$sql->fetchColumn(0);
             $ReturnArr = [
-                'count' => $num,
+                'count' => $sql->rowCount(),
                 'data' => $arr
             ];
             return $ReturnArr;
